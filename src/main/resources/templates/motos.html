@@ -13,7 +13,7 @@
             <a href="/motos/new" class="btn btn-primary">Adicionar Nova Moto</a>
         </div>
 
-        <div th:if="${message}" class="alert alert-success shadow-lg mb-4">
+        <div th:if="${message}" class="alert alert-success shadow-lg mb-4 transition-opacity duration-500 ease-out">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
                     viewBox="0 0 24 24">
@@ -23,7 +23,7 @@
                 <span th:text="${message}"></span>
             </div>
         </div>
-        <div th:if="${error}" class="alert alert-error shadow-lg mb-4">
+        <div th:if="${error}" class="alert alert-error shadow-lg mb-4 transition-opacity duration-500 ease-out">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
                     viewBox="0 0 24 24">
@@ -67,6 +67,8 @@
                                 <a sec:authorize="hasRole('ADMIN')"
                                     th:href="@{/motos/{id}/manutencao/iniciar(id=${moto.id})}"
                                     class="btn btn-sm btn-neutral">Manutenção</a>
+                                <a sec:authorize="hasRole('ADMIN')" th:href="@{/motos/delete/{id}(id=${moto.id})}"
+                                    class="btn btn-sm btn-error">Excluir</a>
                             </div>
 
                             <div th:unless="${moto.ativa}">

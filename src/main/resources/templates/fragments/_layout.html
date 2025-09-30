@@ -36,6 +36,27 @@
         </div>
     </main>
 
+    <script>
+        // Espera o documento carregar completamente
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Seleciona todos os elementos que têm a classe 'alert'
+            const alerts = document.querySelectorAll('.alert');
+
+            alerts.forEach(alert => {
+                // Define um temporizador para 5 segundos (5000 milissegundos)
+                setTimeout(() => {
+                    // Adiciona a classe 'opacity-0' para iniciar o fade-out
+                    alert.classList.add('opacity-0');
+
+                    // Define outro temporizador para remover o elemento após a transição
+                    setTimeout(() => {
+                        alert.style.display = 'none';
+                    }, 500); // 500ms, a mesma duração da transição CSS
+                }, 5000);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
