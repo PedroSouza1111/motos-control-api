@@ -43,21 +43,31 @@ public class MotoViewController {
         return "moto-form";
     }
 
-    // Método para salvar (criar ou atualizar) uma moto
+    // Método para CRIAR uma nova moto
     @PostMapping("/save")
-    public String saveMoto(@Valid Moto moto, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String createMoto(@Valid Moto moto, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "moto-form";
         }
-        MotoDTO dto = new MotoDTO(moto.getIdentificador(), moto.getModelo(), moto.getPlaca(), moto.getLocalizacao());
 
-        if (moto.getId() == null) {
-            motoService.save(dto);
-            redirectAttributes.addFlashAttribute("message", "Moto cadastrada com sucesso!");
-        } else {
-            motoService.update(moto.getId(), dto);
-            redirectAttributes.addFlashAttribute("message", "Moto atualizada com sucesso!");
+        MotoDTO dto = new MotoDTO(moto.getIdentificador(), moto.getModelo(), moto.getPlaca(), moto.getLocalizacao());
+        motoService.save(dto);
+        redirectAttributes.addFlashAttribute("message", "Moto cadastrada com sucesso!");
+
+        return "redirect:/motos";
+    }
+
+    // Método para ATUALIZAR uma moto existente
+    @PostMapping("/update/{id}")
+    public String updateMoto(@PathVariable Long id, @Valid Moto moto, BindingResult result,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "moto-form";
         }
+
+        MotoDTO dto = new MotoDTO(moto.getIdentificador(), moto.getModelo(), moto.getPlaca(), moto.getLocalizacao());
+        motoService.update(id, dto);
+        redirectAttributes.addFlashAttribute("message", "Moto atualizada com sucesso!");
 
         return "redirect:/motos";
     }
@@ -68,7 +78,7 @@ public class MotoViewController {
         return "moto-form";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteMoto(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         motoService.delete(id);
@@ -97,7 +107,7 @@ public class MotoViewController {
         return "redirect:/motos";
     }
 
-    @GetMapping("/{id}/desassociar")
+    @PostMapping("/{id}/desassociar")
     public String desassociarLocalizacao(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             motoService.desassociarLocalizacao(id);
@@ -109,7 +119,7 @@ public class MotoViewController {
     }
 
     // Endpoint para enviar a moto para manutenção
-    @GetMapping("/{id}/manutencao/iniciar")
+    @PostMapping("/{id}/manutencao/iniciar")
     @PreAuthorize("hasRole('ADMIN')")
     public String iniciarManutencao(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -122,7 +132,7 @@ public class MotoViewController {
     }
 
     // Endpoint para finalizar a manutenção da moto
-    @GetMapping("/{id}/manutencao/finalizar")
+    @PostMapping("/{id}/manutencao/finalizar")
     public String finalizarManutencao(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             motoService.finalizarManutencao(id);

@@ -33,7 +33,9 @@ public class SecurityConfig {
                                                 .logoutUrl("/logout")
                                                 .logoutSuccessUrl("/login"));
 
-                http.csrf(csrf -> csrf.disable());
+                http.csrf(csrf -> csrf
+                                .ignoringRequestMatchers("/login", "/h2-console/**", "/swagger-ui/**",
+                                                "/v3/api-docs/**"));
                 http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
                 return http.build();

@@ -61,20 +61,28 @@
                                     class="btn btn-sm btn-warning">Editar</a>
                                 <a th:if="${moto.localizacao == null}" th:href="@{/motos/{id}/associar(id=${moto.id})}"
                                     class="btn btn-sm btn-info">Associar</a>
-                                <a th:if="${moto.localizacao != null}"
-                                    th:href="@{/motos/{id}/desassociar(id=${moto.id})}"
-                                    class="btn btn-sm btn-ghost">Desassociar</a>
-                                <a sec:authorize="hasRole('ADMIN')"
-                                    th:href="@{/motos/{id}/manutencao/iniciar(id=${moto.id})}"
-                                    class="btn btn-sm btn-neutral">Manutenção</a>
-                                <a sec:authorize="hasRole('ADMIN')" th:href="@{/motos/delete/{id}(id=${moto.id})}"
-                                    class="btn btn-sm btn-error">Excluir</a>
+                                <form th:if="${moto.localizacao != null}"
+                                    th:action="@{/motos/{id}/desassociar(id=${moto.id})}" method="post"
+                                    style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-ghost">Desassociar</button>
+                                </form>
+                                <form sec:authorize="hasRole('ADMIN')"
+                                    th:action="@{/motos/{id}/manutencao/iniciar(id=${moto.id})}" method="post"
+                                    style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-neutral">Manutenção</button>
+                                </form>
+                                <form th:action="@{/motos/delete/{id}(id=${moto.id})}" method="post"
+                                    style="display: inline;" sec:authorize="hasRole('ADMIN')">
+                                    <button type="submit" class="btn btn-sm btn-error">Excluir</button>
+                                </form>
                             </div>
 
                             <div th:unless="${moto.ativa}">
-                                <a sec:authorize="hasRole('ADMIN')"
-                                    th:href="@{/motos/{id}/manutencao/finalizar(id=${moto.id})}"
-                                    class="btn btn-sm btn-success">Finalizar Manutenção</a>
+                                <form sec:authorize="hasRole('ADMIN')"
+                                    th:action="@{/motos/{id}/manutencao/finalizar(id=${moto.id})}" method="post"
+                                    style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">Finalizar Manutenção</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

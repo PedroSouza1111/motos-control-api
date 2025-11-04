@@ -33,9 +33,11 @@
                         </td>
                         <td th:text="${loc.moto != null} ? ${loc.moto.placa} : '-'"></td>
                         <td class="space-x-2">
-                            <a th:if="${loc.moto == null}" sec:authorize="hasRole('ADMIN')"
-                                th:href="@{/localizacoes/delete/{id}(id=${loc.id})}"
-                                class="btn btn-sm btn-error">Excluir</a>
+                            <form th:if="${loc.moto == null}" sec:authorize="hasRole('ADMIN')"
+                                th:action="@{/localizacoes/delete/{id}(id=${loc.id})}" method="post"
+                                style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-error">Excluir</button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>

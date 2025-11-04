@@ -49,7 +49,7 @@ public class LocalizacaoViewController {
     }
 
     // Método para deletar uma localização
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteLocalizacao(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             localizacaoService.delete(id);

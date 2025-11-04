@@ -11,7 +11,8 @@
         <h2 class="text-2xl font-bold mb-4" th:text="${moto.id == null} ? 'Cadastrar Nova Moto' : 'Editar Moto'">
             Formulário</h2>
 
-        <form th:action="@{/motos/save}" th:object="${moto}" method="post" class="max-w-lg">
+        <form th:action="${moto.id == null} ? @{/motos/save} : @{/motos/update/{id}(id=${moto.id})}" th:object="${moto}"
+            method="post" class="max-w-lg">
             <input type="hidden" th:field="*{id}" />
 
             <div class="form-control w-full mb-4">
